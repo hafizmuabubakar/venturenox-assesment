@@ -5,19 +5,19 @@ const { initProducer } = require('./utilities/producer');
 // const { connectProducer, connectAdmin } = require('./utilities/producer');
 // const KeyMaster = require('./utilities/KeyMaster');
 // const databaseConfig = require('./database/DatabaseConfig');
+const Tenant = require('./Routes/Tenant.route');
+const User = require('./Routes/User.route');
+const initDB = require('./database/initDB');
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// app.use(databaseConfig.initializeDB());
+initDB.initDB();
 
-app.use('/', async (req, res) => {
-
-	res.status(200).json({ message: `App is running on port. ${process.env.PORT || 4000}` });
-
-});
+app.use('/tenant', Tenant);
+app.use('/user', User);
 
 app.listen(process.env.PORT || 4000, async () => {
 	
